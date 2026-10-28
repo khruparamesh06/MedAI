@@ -6,7 +6,10 @@
  * apply; XSS is mitigated by React's escaping and by never rendering HTML from the API.
  * See docs/ARCHITECTURE.md for the trade-offs.
  */
-export const API_URL = (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || 'http://localhost:8000'
+export const API_URL = (
+  (import.meta.env.VITE_API_URL as string | undefined) ||
+  'https://medai-backend-ywhc.onrender.com'
+).replace(/\/$/, '')
 
 const TOKEN_KEY = 'medai.token'
 
