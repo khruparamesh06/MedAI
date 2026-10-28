@@ -1,0 +1,7 @@
+# Optional AI inference/training stack. Install AFTER requirements.txt.
+# CPU build (~200 MB). For an NVIDIA GPU, see ai/README.md for the CUDA index URL.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1
+torchvision==0.29.1
+torchxrayvision==1.5.7
+scikit-image==0.26.0

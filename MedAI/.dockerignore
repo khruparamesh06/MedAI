@@ -1,0 +1,13 @@
+**/.venv
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+**/*.db
+.env
+backend/storage
+ai/weights
+ai/data
+ai/checkpoints
+frontend
+docs
+*.zip

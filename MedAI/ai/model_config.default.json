@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "backend": "torchxrayvision",
+  "weights_name": "densenet121-res224-all",
+  "weights_path": "weights/torchxrayvision/densenet121-res224-all.state_dict.pt",
+  "weights_sha256": null,
+  "device": "cpu"
+}

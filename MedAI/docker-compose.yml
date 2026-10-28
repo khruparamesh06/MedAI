@@ -1,0 +1,41 @@
+# Optional: run PostgreSQL + the backend in containers (local development does NOT require this).
+#   copy .env.example .env   (set JWT_SECRET_KEY and POSTGRES_PASSWORD)
+#   docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: medai
+      POSTGRES_USER: medai
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medai -d medai"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        INSTALL_AI: ${INSTALL_AI:-false}
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://medai:${POSTGRES_PASSWORD}@db:5432/medai
+      UPLOAD_DIR: /data/xrays
+      MODEL_CONFIG_PATH: /srv/medai/ai/model_config.json
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - xrays:/data/xrays                 # private, persistent image storage
+      - ./ai/weights:/srv/medai/ai/weights:ro
+      - ./ai/model_config.json:/srv/medai/ai/model_config.json:ro
+
+volumes:
+  pgdata:
+  xrays:
